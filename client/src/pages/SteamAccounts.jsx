@@ -1,61 +1,90 @@
-import React, { useState, useMemo } from "react";
-import AccountsTable from "../components/AccountsTable";
+import React, { useEffect, useState } from 'react';
+import AccountsGrid from '../components/AccountsGrid';
+import axios from 'axios';
+import { FaPlus } from 'react-icons/fa';
 
 const SteamAccounts = () => {
-  const [accounts] = useState([
-    {
-      login: "wUpfPyN5Od",
-      password: "********",
-      proxy: "********",
-      steam2fa: "7V82M",
-      confirmations: 0,
-      level: 0,
-      balance: "6$",
-      inventory: "36.011$",
-      status: "OK",
-    },
-    // При необходимости добавь другие аккаунты
-  ]);
+  const [accounts, setAccounts] = useState([]); // по-умолчанию пустой массив
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  useEffect(() => {
+    fetchAccounts();
+  }, []);
 
-  const filteredAccounts = useMemo(() => {
-    return accounts.filter((acc) => {
-      const matchesLogin = acc.login
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchesStatus = statusFilter ? acc.status === statusFilter : true;
-      return matchesLogin && matchesStatus;
-    });
-  }, [accounts, search, statusFilter]);
+  const fetchAccounts = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get('/api/steam-accounts');
+
+      // Если сервер вернул { accounts: [ … ] }
+      if (response.data && Array.isArray(response.data.accounts)) {
+        setAccounts(response.data.accounts);
+      }
+      // Если сразу идёт массив [ … ]
+      else if (Array.isArray(response.data)) {
+        setAccounts(response.data);
+      }
+      // Иначе — сбрасываем в пустой массив
+      else {
+        setAccounts([]);
+      }
+    } catch (err) {
+      console.error('Ошибка при получении аккаунтов:', err);
+      setError('Не удалось загрузить аккаунты. Попробуйте позже.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = (id) => {
+    window.location.href = `/accounts/edit/${id}`;
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Вы уверены, что хотите удалить этот аккаунт?')) return;
+    try {
+      await axios.delete(`/api/steam-accounts/${id}`);
+      setAccounts((prev) => prev.filter((acc) => acc.id !== id));
+    } catch (err) {
+      console.error('Ошибка при удалении:', err);
+      alert('Не удалось удалить аккаунт.');
+    }
+  };
+
+  const handleAdd = () => {
+    window.location.href = '/accounts/add';
+  };
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold mb-4 sm:mb-0 text-white">
-          Панель аккаунтов Steam
-        </h1>
-        <div className="flex space-x-4">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-white text-gray-800 rounded px-3 py-2"
-          >
-            <option value="">Все статусы</option>
-            <option value="OK">OK</option>
-            <option value="Blocked">Blocked</option>
-          </select>
-          <input
-            type="text"
-            placeholder="Поиск по логину..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="px-4 py-2 rounded-lg"
-          />
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-primary">Мои аккаунты</h1>
+        <button
+          onClick={handleAdd}
+          className="flex items-center px-5 py-3 bg-accent hover:bg-emerald-600 text-white font-semibold rounded-button shadow-button transition-colors duration-150"
+        >
+          <FaPlus className="mr-2" /> Добавить аккаунт
+        </button>
       </div>
-      <AccountsTable data={filteredAccounts} />
+
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-pulse">
+            <div className="h-6 bg-secondary rounded w-48 mb-4"></div>
+            <div className="h-6 bg-secondary rounded w-64 mb-4"></div>
+            <div className="h-6 bg-secondary rounded w-32"></div>
+          </div>
+        </div>
+      ) : error ? (
+        <p className="text-center text-danger">{error}</p>
+      ) : (
+        <AccountsGrid
+          accounts={accounts}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };
