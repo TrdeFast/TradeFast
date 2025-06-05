@@ -10,8 +10,9 @@ const Auth = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Здесь можно вставить проверку логина/пароля
-    navigate("/accounts");
+    // Здесь можно добавить реальную проверку логина/пароля (fetch/axios к бэкенду).
+    // Пока просто перенаправляем в Личный кабинет:
+    navigate("/profile");
   };
 
   const particlesInit = async (engine) => {
@@ -46,7 +47,12 @@ const Auth = () => {
           <img
             src={googleLogo}
             alt="Google"
-            style={{ width: "20px", height: "20px", objectFit: "contain", marginRight: "8px" }}
+            style={{
+              width: "20px",
+              height: "20px",
+              objectFit: "contain",
+              marginRight: "8px",
+            }}
           />
           Войти через Google
         </button>
@@ -63,85 +69,84 @@ const Auth = () => {
 
 const styles = {
   container: {
-    height: "100vh",
-    width: "100vw",
-    backgroundColor: "#140f3a",
+    position: "relative",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
-    zIndex: 0,
+    height: "100vh",
+    backgroundColor: "#140f3a",
   },
   card: {
     position: "relative",
     zIndex: 1,
-    backgroundColor: "#0c0924",
-    padding: "50px 40px",
-    borderRadius: "21px",
-    boxShadow: "0 20px 40px rgba(0,0,0,0.6)",
-    width: "90%",
-    maxWidth: "500px",
-    textAlign: "center",
+    width: "350px",
+    padding: "40px",
+    borderRadius: "10px",
+    backgroundColor: "#1e1e2e",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    textAlign: "center",
   },
   logo: {
-    width: "120px",
-    marginBottom: "25px",
+    width: "100px",
+    height: "100px",
+    marginBottom: "20px",
+    objectFit: "contain",
   },
   title: {
-    color: "#fff",
-    marginBottom: "25px",
-    fontWeight: "bold",
+    fontSize: "24px",
+    color: "#ffffff",
+    marginBottom: "20px",
   },
   input: {
     width: "100%",
-    maxWidth: "370px",
-    padding: "14px",
+    padding: "10px",
     marginBottom: "15px",
-    borderRadius: "10px",
+    borderRadius: "5px",
     border: "none",
+    backgroundColor: "#2e2e3c",
+    color: "#fff",
     fontSize: "14px",
     outline: "none",
   },
   gradientButton: {
-    background: "linear-gradient(270deg, #ff7a18, #af002d, #ff7a18)",
-    backgroundSize: "600% 600%",
-    animation: "gradientFlow 4s ease infinite",
-    border: "none",
-    color: "#fff",
-    fontWeight: "bold",
-    padding: "14px",
-    width: "100%",
-    maxWidth: "370px",
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontSize: "16px",
-  },
-  or: {
-    color: "#ccc",
-    margin: "18px 0 12px",
-    fontSize: "13px",
-  },
-  googleButton: {
-    background: "#fff",
-    color: "#000",
-    padding: "15px",
-    borderRadius: "17px",
-    width: "100%",
-    maxWidth: "370px",
-    display: "flex",
+    display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
+    padding: "12px 0",
+    marginBottom: "15px",
+    borderRadius: "5px",
+    background: "linear-gradient(90deg, #ff6b6b, #feca57)",
+    color: "#fff",
+    fontSize: "16px",
     fontWeight: "bold",
     cursor: "pointer",
     border: "none",
-    fontSize: "15px",
+    transition: "background 0.3s ease",
+  },
+  or: {
+    color: "#8e8ea0",
+    margin: "10px 0",
+  },
+  googleButton: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    padding: "10px 0",
+    marginBottom: "15px",
+    borderRadius: "5px",
+    border: "1px solid #fff",
+    color: "#fff",
+    fontSize: "16px",
+    cursor: "pointer",
+    backgroundColor: "transparent",
   },
   register: {
-    color: "#ccc",
-    marginTop: "25px",
+    color: "#8e8ea0",
     fontSize: "14px",
   },
 };
