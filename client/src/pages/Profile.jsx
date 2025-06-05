@@ -5,7 +5,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+    <div className="flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-4">Личный кабинет</h1>
       <p className="mb-6">
         Добро пожаловать в твой профиль! Здесь можно будет посмотреть баланс, историю действий и настройки.
@@ -21,4 +21,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

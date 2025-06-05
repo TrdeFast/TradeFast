@@ -16,42 +16,30 @@ const SteamAccounts = () => {
       inventory: "36.011$",
       status: "OK",
     },
-    // можно добавить больше аккаунтов для примера
+    // Другие аккаунты можно добавить сюда
   ];
 
   return (
-    <div className="min-h-screen bg-[#0D0C2B] text-white p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Панель аккаунтов Steam</h1>
-        <button
-          onClick={() => navigate("/add-account")}
-          className="bg-gradient-to-r from-purple-500 to-indigo-500 px-4 py-2 rounded shadow"
-        >
-          + Добавить аккаунт
-        </button>
-      </div>
-
-      <div className="overflow-auto rounded-lg shadow">
-        <table className="w-full table-auto text-sm">
-          <thead className="bg-[#1B1A3D]">
-            <tr>
-              <th className="px-4 py-2 text-left">Логин</th>
-              <th className="px-4 py-2 text-left">Пароль</th>
-              <th className="px-4 py-2 text-left">Прокси</th>
-              <th className="px-4 py-2 text-left">Steam 2FA</th>
-              <th className="px-4 py-2 text-left">Подтверждения</th>
-              <th className="px-4 py-2 text-left">Уровень</th>
-              <th className="px-4 py-2 text-left">Баланс</th>
-              <th className="px-4 py-2 text-left">Инвентарь</th>
-              <th className="px-4 py-2 text-left">Статус</th>
+    <div className="overflow-x-auto">
+      <h1 className="text-3xl font-bold mb-4">Панель аккаунтов Steam</h1>
+      <div className="bg-white rounded-lg shadow-lg p-4">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr className="w-full bg-gray-200 text-gray-700 uppercase text-sm leading-normal">
+              <th className="py-3 px-4 text-left">Логин</th>
+              <th className="py-3 px-4 text-left">Пароль</th>
+              <th className="py-3 px-4 text-left">Прокси</th>
+              <th className="py-3 px-4 text-left">Steam 2FA</th>
+              <th className="py-3 px-4 text-left">Подтверждения</th>
+              <th className="py-3 px-4 text-left">Уровень</th>
+              <th className="py-3 px-4 text-left">Баланс</th>
+              <th className="py-3 px-4 text-left">Инвентарь</th>
+              <th className="py-3 px-4 text-left">Статус</th>
             </tr>
           </thead>
-          <tbody>
-            {accounts.map((acc, idx) => (
-              <tr
-                key={idx}
-                className="odd:bg-[#18173A] even:bg-[#161533] border-b border-[#2E2D52]"
-              >
+          <tbody className="text-gray-600 text-sm font-light">
+            {accounts.map((acc, index) => (
+              <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                 <td className="px-4 py-2">{acc.login}</td>
                 <td className="px-4 py-2">{acc.password}</td>
                 <td className="px-4 py-2">{acc.proxy}</td>
