@@ -20,5 +20,10 @@
     "tailwind-merge": "^2.2.1",
     "tailwind-variants": "^0.1.2",
     "vite": "^4.5.14"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8"
   }
 }
